@@ -65,7 +65,7 @@ def show_pokemon(request, pokemon_id):
         'title_ru': requested_pokemon.title,
         # 'title_en': 'Bulbasaur',
         # 'title_jp': 'フシギダネ',
-        # 'description': pokemon.description,
+        'description': requested_pokemon.description,
         'img_url': request.build_absolute_uri(requested_pokemon.photo.url),
         # 'next_evolution': {
         #     'title_ru': 'Ивизавр',

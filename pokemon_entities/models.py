@@ -3,6 +3,7 @@ from django.db import models  # noqa F401
 class Pokemon(models.Model):
     title = models.CharField(max_length=200)
     photo = models.ImageField(upload_to='pokemons', null=True, blank=True)
+    description = models.TextField(default='')
 
 
     def __str__(self) -> str:
@@ -20,3 +21,6 @@ class PokemonEntity(models.Model):
     attack = models.IntegerField()
     defense = models.IntegerField()
     stamina = models.IntegerField()
+
+    def __str__(self) -> str:
+        return f'{self.pokemon}. {self.level} уровень'
