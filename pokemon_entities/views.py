@@ -67,11 +67,11 @@ def show_pokemon(request, pokemon_id):
         'title_jp': requested_pokemon.title_jp,
         'description': requested_pokemon.description,
         'img_url': request.build_absolute_uri(requested_pokemon.photo.url),
-        # 'next_evolution': {
-        #     'title_ru': 'Ивизавр',
-        #     'pokemon_id': 2,
-        #     'img_url': 
-        # }
+        'previous_evolution': {
+            'title_ru': requested_pokemon.evolved_from.title,
+            'pokemon_id': requested_pokemon.evolved_from.id,
+            'img_url': request.build_absolute_uri(requested_pokemon.evolved_from.photo.url)
+        } if requested_pokemon.evolved_from else None
     }
 
     pokemon_entitys = PokemonEntity.objects.filter(pokemon=requested_pokemon)
