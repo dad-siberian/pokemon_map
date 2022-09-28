@@ -66,13 +66,22 @@ def show_pokemon(request, pokemon_id):
         'title_en': requested_pokemon.title_en,
         'title_jp': requested_pokemon.title_jp,
         'description': requested_pokemon.description,
-        'img_url': request.build_absolute_uri(requested_pokemon.photo.url),
-        'previous_evolution': {
-            'title_ru': requested_pokemon.evolved_from.title,
-            'pokemon_id': requested_pokemon.evolved_from.id,
-            'img_url': request.build_absolute_uri(requested_pokemon.evolved_from.photo.url)
-        } if requested_pokemon.evolved_from else None
+        'img_url': request.build_absolute_uri(requested_pokemon.photo.url)
     }
+    if requested_pokemon.evolved_from:
+        previous_evolution = requested_pokemon.evolved_from
+        pokemon['previous_evolution'] = {
+            'title_ru': previous_evolution.title,
+            'pokemon_id': previous_evolution.id,
+            'img_url': request.build_absolute_uri(previous_evolution.photo.url)
+        }
+    if requested_pokemon.evolves_into.all():
+        next_evolution = requested_pokemon.evolves_into.all()[0]
+        pokemon['next_evolution'] = {
+            'title_ru': next_evolution.title,
+            'pokemon_id': next_evolution.id,
+            'img_url': request.build_absolute_uri(next_evolution.photo.url)
+        }
 
     pokemon_entitys = PokemonEntity.objects.filter(pokemon=requested_pokemon)
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
