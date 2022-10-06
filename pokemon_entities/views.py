@@ -54,31 +54,31 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    requested_pokemon = get_object_or_404(Pokemon, id=int(pokemon_id))
-    pokemon = {
-        'pokemon_id': requested_pokemon.id,
-        'title_ru': requested_pokemon.title,
-        'title_en': requested_pokemon.title_en,
-        'title_jp': requested_pokemon.title_jp,
-        'description': requested_pokemon.description,
-        'img_url': request.build_absolute_uri(requested_pokemon.photo.url)
+    pokemon = get_object_or_404(Pokemon, id=int(pokemon_id))
+    serialized_pokemon = {
+        'pokemon_id': pokemon.id,
+        'title_ru': pokemon.title,
+        'title_en': pokemon.title_en,
+        'title_jp': pokemon.title_jp,
+        'description': pokemon.description,
+        'img_url': request.build_absolute_uri(pokemon.photo.url)
     }
-    if requested_pokemon.evolved_from:
-        previous_evolution = requested_pokemon.evolved_from
-        pokemon['previous_evolution'] = {
+    if pokemon.evolved_from:
+        previous_evolution = pokemon.evolved_from
+        serialized_pokemon['previous_evolution'] = {
             'title_ru': previous_evolution.title,
             'pokemon_id': previous_evolution.id,
             'img_url': request.build_absolute_uri(previous_evolution.photo.url)
         }
-    if requested_pokemon.evolves_into.all():
-        next_evolution = requested_pokemon.evolves_into.all()[0]
-        pokemon['next_evolution'] = {
+    if pokemon.evolves_into.all():
+        next_evolution = pokemon.evolves_into.all()[0]
+        serialized_pokemon['next_evolution'] = {
             'title_ru': next_evolution.title,
             'pokemon_id': next_evolution.id,
             'img_url': request.build_absolute_uri(next_evolution.photo.url)
         }
     now_time = localtime()
-    pokemon_entities = requested_pokemon.pokemon_entities.filter(
+    pokemon_entities = pokemon.pokemon_entities.filter(
         appeared_at__lt=now_time,
         disappeared_at__gt=now_time
     )
@@ -88,9 +88,9 @@ def show_pokemon(request, pokemon_id):
             folium_map,
             pokemon_entity.lat,
             pokemon_entity.lon,
-            pokemon.get('img_url')
+            serialized_pokemon.get('img_url')
         )
 
     return render(request, 'pokemon.html', context={
-        'map': folium_map._repr_html_(), 'pokemon': pokemon
+        'map': folium_map._repr_html_(), 'pokemon': serialized_pokemon
     })
