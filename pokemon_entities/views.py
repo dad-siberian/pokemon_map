@@ -1,11 +1,8 @@
 import folium
-import json
-
-from django.http import HttpResponseNotFound
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.utils.timezone import localtime
-from pokemon_entities.models import Pokemon, PokemonEntity
 
+from pokemon_entities.models import Pokemon, PokemonEntity
 
 MOSCOW_CENTER = [55.751244, 37.618423]
 DEFAULT_IMAGE_URL = (
@@ -57,9 +54,7 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    requested_pokemon = Pokemon.objects.get(id=int(pokemon_id))
-    if not requested_pokemon:
-        return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
+    requested_pokemon = get_object_or_404(Pokemon, id=int(pokemon_id))
     pokemon = {
         'pokemon_id': requested_pokemon.id,
         'title_ru': requested_pokemon.title,
