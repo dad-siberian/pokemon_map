@@ -5,10 +5,10 @@ class Pokemon(models.Model):
     """Вид покемона"""
     title = models.CharField(max_length=200, verbose_name='Название')
     title_en = models.CharField(
-        max_length=200, null=True, blank=True,
+        max_length=200, blank=True,
         verbose_name='Название на английском')
     title_jp = models.CharField(
-        max_length=200, null=True, blank=True,
+        max_length=200, blank=True,
         verbose_name='Название на японском')
     evolved_from = models.ForeignKey(
         'self', on_delete=models.SET_NULL, null=True,
