@@ -1,3 +1,4 @@
+import black
 from django.db import models  # noqa F401
 
 
@@ -36,11 +37,11 @@ class PokemonEntity(models.Model):
         default=None, verbose_name='Дата и время появления')
     disappeared_at = models.DateTimeField(
         default=None, verbose_name='Дата и время исчезновения')
-    level = models.IntegerField(verbose_name='Уровень')
-    health = models.IntegerField(verbose_name='Здоровье')
-    attack = models.IntegerField(verbose_name='Сила атаки')
-    defense = models.IntegerField(verbose_name='Защита')
-    stamina = models.IntegerField(verbose_name='Выносливость')
+    level = models.IntegerField(verbose_name='Уровень', blank=True, null=True)
+    health = models.IntegerField(verbose_name='Здоровье', blank=True, null=True)
+    attack = models.IntegerField(verbose_name='Сила атаки', blank=True, null=True)
+    defense = models.IntegerField(verbose_name='Защита', blank=True, null=True)
+    stamina = models.IntegerField(verbose_name='Выносливость', blank=True, null=True)
 
     def __str__(self) -> str:
         return f'{self.pokemon}. {self.level} уровень'
