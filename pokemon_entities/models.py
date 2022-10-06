@@ -17,7 +17,7 @@ class Pokemon(models.Model):
     )
     photo = models.ImageField(upload_to='pokemons',
                               null=True, blank=True, verbose_name='Фото')
-    description = models.TextField(default='', verbose_name='Описание')
+    description = models.TextField(default='', verbose_name='Описание', blank=True)
 
     def __str__(self) -> str:
         return self.title
