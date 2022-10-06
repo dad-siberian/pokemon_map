@@ -17,7 +17,8 @@ class Pokemon(models.Model):
     )
     photo = models.ImageField(upload_to='pokemons',
                               null=True, blank=True, verbose_name='Фото')
-    description = models.TextField(default='', verbose_name='Описание', blank=True)
+    description = models.TextField(
+        default='', verbose_name='Описание', blank=True)
 
     def __str__(self) -> str:
         return self.title
@@ -26,7 +27,9 @@ class Pokemon(models.Model):
 class PokemonEntity(models.Model):
     """Модель, описывающая одну особь покемона"""
     pokemon = models.ForeignKey(
-        Pokemon, on_delete=models.CASCADE, verbose_name='Покемон')
+        Pokemon, on_delete=models.CASCADE,
+        verbose_name='Покемон', related_name='pokemon_entities'
+    )
     lat = models.FloatField(verbose_name='Широта')
     lon = models.FloatField(verbose_name='Долгота')
     appeared_at = models.DateTimeField(
