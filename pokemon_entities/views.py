@@ -78,7 +78,7 @@ def show_pokemon(request, pokemon_id):
             'img_url': request.build_absolute_uri(next_evolution.photo.url)
         }
     now_time = localtime()
-    pokemon_entities = pokemon.pokemon_entities.filter(
+    pokemon_entities = pokemon.entities.filter(
         appeared_at__lt=now_time,
         disappeared_at__gt=now_time
     )
